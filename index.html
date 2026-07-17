@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" id="appHtml">
+<head>
+  <meta charset="UTF-8">
+  <title>LecturAI - AI Learning Platform</title>
+  
+  <!-- خط Cairo للعربية و Inter للإنجليزية لشكل مودرن ونظيف -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+
+  <style>
+    /* --- تطبيق درجة الأخضر المينت الفاتح والمشع #42f598 كبطل وحيد للتصميم --- */
+    :root {
+      /* خلفية بيضاء ثلجية نقية بالكامل */
+      --bg-gradient: linear-gradient(135deg, #ffffff 0%, #fcfdfe 100%);
+      
+      /* كروت بيضاء بظلال خضراء ناعمة جداً ومحددة بالأخضر الفاتح */
+      --card-bg: #ffffff;
+      --card-border: rgba(66, 245, 152, 0.4);
+      
+      /* الأخضر المينت الفاتح والمشع #42f598 */
+      --accent-color: #42f598;
+      --accent-glow: rgba(66, 245, 152, 0.5);
+      
+      /* تطبيق الأخضر الفاتح المشع للنصوص الأساسية مع لمسة تباين ذكية للقراءة */
+      --text-main: #14b8a6; /* درجة مريحة مشتقة وماتشينج مع الأخضر الفاتح */
+      --text-bright: #059669; /* أخضر ساطع للعناوين والخطوط العريضة */
+      
+      --font-family: 'Cairo', sans-serif;
+    }
+
+    body {
+      font-family: var(--font-family);
+      background: var(--bg-gradient);
+      color: var(--text-main);
+      margin: 0;
+      padding: 40px 20px;
+      min-height: 100vh;
+      transition: direction 0.3s ease;
+    }
+
+    .app-container {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    /* --- شريط التحكم اللغوي الفاتح --- */
+    .lang-switcher-wrapper {
+      display: flex;
+      justify-content: flex-end;
+      margin-bottom: 20px;
+    }
+
+    .lang-btn {
+      background: #ffffff;
+      border: 3px solid var(--accent-color);
+      color: var(--text-bright);
+      padding: 8px 16px;
+      border-radius: 12px;
+      cursor: pointer;
+      font-family: inherit;
+      font-weight: 900;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 10px var(--accent-glow);
+    }
+
+    .lang-btn:hover {
+      background: var(--accent-color);
+      color: #ffffff;
+      box-shadow: 0 0 20px var(--accent-glow);
+    }
+
+    /* --- الهيدر باسم LecturAI بالأخضر المينت الفاتح الصافي --- */
+    header {
+      text-align: center;
+      margin-bottom: 50px;
+    }
+
+    header h1 {
+      font-size: 3.5rem;
+      font-weight: 900;
+      background: linear-gradient(to left, var(--text-bright), var(--accent-color));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin: 0 0 10px 0;
+      letter-spacing: -1px;
+    }
+
+    header p {
+      color: var(--text-bright);
+      font-size: 1.2rem;
+      margin: 0;
+      font-weight: 700;
+    }
+
+    /* --- كروت الخطوات البيضاء المحددة بالأخضر المينت الفاتح --- */
+    .step-card {
+      background: var(--card-bg);
+      border: 3px solid var(--card-border);
+      border-radius: 24px;
+      padding: 30px;
+      margin-bottom: 35px;
+      position: relative;
+      box-shadow: 0 10px 25px rgba(66, 245, 152, 0.15);
+      transition: all 0.3s ease;
+    }
+
+    .step-card:hover {
+      transform: translateY(-3px);
+      border-color: var(--accent-color);
+      box-shadow: 0 15px 35px var(--accent-glow);
+    }
+
+    .step-header {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      margin-bottom: 25px;
+    }
+
+    .step-number {
+      background: var(--accent-color);
+      color: #ffffff;
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 900;
+      font-size: 1.2rem;
+      box-shadow: 0 4px 12px var(--accent-glow);
+    }
+
+    .step-header h3 {
+      margin: 0;
+      font-size: 1.5rem;
+      font-weight: 900;
+      color: var(--text-bright);
+    }
+
+    /* --- منطقة الرفع المحددة بالأخضر الفاتح النيون --- */
+    .upload-zone {
+      border: 3px dashed var(--accent-color);
+      background: #fdfdfd;
+      border-radius: 16px;
+      padding: 40px 20px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .upload-zone:hover {
+      background: rgba(66, 245, 152, 0.2);
+    }
+
+    .upload-icon {
+      font-size: 3.5rem;
+      margin-bottom: 15px;
+      display: block;
+      animation: float 3s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    #uploadText {
+      font-size: 1.1rem;
+      color: var(--text-bright);
+      margin: 0 0 5px 0;
+      font-weight: 900;
+    }
+
+    .upload-hint {
+      font-size: 0.95rem;
+      color: var(--text-main);
+      font-weight: 700;
+    }
+
+    .file-badge {
+      display: inline-block;
+      margin-top: 15px;
+      background: rgba(66, 245, 152, 0.3);
+      border: 2px solid var(--accent-color);
+      color: var(--text-bright);
+      padding: 6px 16px;
+      border-radius: 50px;
+      font-weight: 700;
+    }
+
+    /* --- شبكة شخصيات المعلمين --- */
+    .characters-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 20px;
+    }
+
+    .char-card {
+      background: #ffffff;
+      border: 2px solid rgba(66, 245, 152, 0.3);
+      border-radius: 20px;
+      padding: 20px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .char-card img {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-bottom: 15px;
+      border: 3px solid var(--card-border);
+      transition: all 0.3s ease;
+    }
+
+    .char-card h4 {
+      margin: 0 0 8px 0;
+      font-size: 1.25rem;
+      color: var(--text-bright);
+      font-weight: 900;
+    }
+
+    .char-card p {
+      margin: 0;
+      font-size: 0.95rem;
+      color: var(--text-main);
+      line-height: 1.6;
+      font-weight: 700;
+    }
+
+    .char-card:hover {
+      transform: translateY(-5px);
+      border-color: var(--accent-color);
+      box-shadow: 0 5px 15px var(--accent-glow);
+    }
+
+    .char-card.active {
+      border-color: var(--accent-color);
+      box-shadow: 0 0 20px var(--accent-glow);
+      background: rgba(66, 245, 152, 0.25);
+    }
+
+    .char-card.active img {
+      border-color: var(--accent-color);
+    }
+
+    /* --- زر التوليد بالأخضر المينت الفاتح والمشع بالكامل --- */
+    .generate-btn {
+      width: 100%;
+      background: linear-gradient(90deg, #42f598, #10b981);
+      color: #ffffff;
+      border: none;
+      padding: 18px;
+      font-size: 1.3rem;
+      font-weight: 900;
+      font-family: inherit;
+      border-radius: 18px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 8px 25px var(--accent-glow);
+      text-shadow: 0 2px 4px rgba(0,0,0,0.15);
+    }
+
+    .generate-btn:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 30px rgba(66, 245, 152, 0.7);
+      filter: brightness(1.05);
+    }
+
+    .generate-btn:disabled {
+      background: #e2e8f0;
+      color: #94a3b8;
+      cursor: not-allowed;
+      box-shadow: none;
+      text-shadow: none;
+    }
+
+    /* --- لوحة ظهور النتائج الفاتحة المحددة بالكامل بالأخضر الفاتح --- */
+    .result-section {
+      margin-top: 40px;
+      background: #ffffff;
+      border: 3px solid var(--accent-color);
+      border-radius: 24px;
+      padding: 30px;
+      box-shadow: 0 15px 35px var(--accent-glow);
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    .loading-box {
+      text-align: center;
+      padding: 30px 0;
+    }
+
+    .spinner {
+      width: 50px;
+      height: 50px;
+      border: 4px solid #e2e8f0;
+      border-top: 4px solid var(--accent-color);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 20px auto;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    #loadingText {
+      color: var(--text-bright) !important;
+      font-weight: 900;
+    }
+
+    .result-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 30px;
+    }
+
+    @media (max-width: 768px) {
+      .result-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .video-wrapper {
+      background: #000;
+      border-radius: 16px;
+      overflow: hidden;
+      aspect-ratio: 16/9;
+      box-shadow: 0 8px 20px rgba(66, 245, 152, 0.2);
+    }
+
+    .script-wrapper {
+      background: #fdfdfd;
+      border: 2px solid var(--card-border);
+      padding: 20px;
+      border-radius: 16px;
+    }
+
+    .script-wrapper h4 {
+      margin: 0 0 12px 0;
+      color: var(--text-bright);
+      font-weight: 900;
+      border-bottom: 2px solid var(--card-border);
+      padding-bottom: 10px;
+    }
+
+    #scriptText {
+      margin: 0;
+      color: var(--text-bright);
+      line-height: 1.7;
+      font-weight: 700;
+    }
+  </style>
+</head>
+<body>
+
+<div class="app-container">
+  <!-- زر التبديل اللغوي المودرن -->
+  <div class="lang-switcher-wrapper">
+    <button class="lang-btn" id="langBtn">
+      🌐 <span>English</span>
+    </button>
+  </div>
+
+  <header>
+    <h1 id="mainTitle">🎓 LecturAI</h1>
+    <p id="mainDesc">حوّل ملفاتك الدراسية إلى فيديوهات شرح تفاعلية بالذكاء الاصطناعي</p>
+  </header>
+
+  <main>
+    <!-- خطوة 1 -->
+    <section class="step-card">
+      <div class="step-header">
+        <div class="step-number">1</div>
+        <h3 id="step1Title">ارفع الملف التعليمي</h3>
+      </div>
+      <div class="upload-zone" id="dropZone">
+        <input type="file" id="fileInput" accept=".pdf,.txt" hidden>
+        <span class="upload-icon">✨</span>
+        <p id="uploadText">اسحب وأفلت ملف الـ PDF أو الـ TXT هنا</p>
+        <p id="uploadHint" class="upload-hint">أو اضغط لتصفح الملفات من جهازك</p>
+        <div id="fileBadgeContainer"></div>
+      </div>
+    </section>
+
+    <!-- خطوة 2 -->
+    <section class="step-card">
+      <div class="step-header">
+        <div class="step-number">2</div>
+        <h3 id="step2Title">اختر شخصية المعلم</h3>
+      </div>
+      <div class="characters-grid">
+        <div class="char-card active" data-char="prof">
+          <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150" alt="Professor">
+          <h4 id="char1Title">البروفيسور حكيم</h4>
+          <p id="char1Desc">يقدم لك الشرح باللغة الفصحى المبسطة والرصينة لضمان الفهم الأكاديمي المكتمل.</p>
+        </div>
+        <div class="char-card" data-char="fun">
+          <img src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=150" alt="Fun Teacher">
+          <h4 id="char2Title">مستر أمير</h4>
+          <p id="char2Desc">يبسط لك المعلومة المعقدة بالعامية المصرية خفيفة الظل وبأمثلة من حياتنا اليومية.</p>
+        </div>
+        <div class="char-card" data-char="tech">
+          <img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=150" alt="Tech Expert">
+          <h4 id="char3Title">المهندس سيف</h4>
+          <p id="char3Desc">شرح تقني مركز جداً يعطيك الخلاصة التطبيقية بمزيج مرن بين العربية والإنجليزية.</p>
+        </div>
+      </div>
+    </section>
+
+    <button class="generate-btn" id="generateBtn" disabled>ابدأ توليد فيديو الشرح الآن 🚀</button>
+
+    <!-- سكشن النتائج -->
+    <section class="result-section hidden" id="resultSection">
+      <div class="loading-box" id="loadingBox">
+        <div class="spinner"></div>
+        <p id="loadingText">جاري معالجة البيانات...</p>
+      </div>
+
+      <div class="output-box hidden" id="outputBox">
+        <h3 id="successTitle" style="color: #059669; font-weight: 900;">✅ تم إنشاء الفيديو والسكريبت بنجاح!</h3>
+        <div class="result-grid">
+          <div class="video-wrapper" id="videoWrapper">
+            <!-- الـ iframe لضمان تشغيل الفيديو بنجاح على كود بن وثيم اللايت المودرن بالأخضر المينت الفاتح بالكامل -->
+          </div>
+          <div class="script-wrapper">
+            <h4 id="scriptHeader">📝 نص الشرح المولد (السيناريو):</h4>
+            <p id="scriptText"></p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<script>
+  const translations = {
+    ar: {
+      dir: "rtl",
+      font: "'Cairo', sans-serif",
+      langBtn: "🌐 English",
+      mainTitle: "🎓 LecturAI",
+      mainDesc: "حوّل ملفاتك الدراسية إلى فيديوهات شرح تفاعلية بالذكاء الاصطناعي",
+      step1Title: "ارفع الملف التعليمي",
+      uploadText: "اسحب وأفلت ملف الـ PDF أو الـ TXT هنا",
+      uploadHint: "أو اضغط لتصفح الملفات من جهازك",
+      fileReady: "تم تجهيز: ",
+      fileReadyText: "ملفك جاهز للتحليل!",
+      step2Title: "اختر شخصية المعلم",
+      char1Title: "البروفيسور حكيم",
+      char1Desc: "يقدم لك الشرح باللغة الفصحى المبسطة والرصينة لضمان الفهم الأكاديمي المكتمل.",
+      char2Title: "مستر أمير",
+      char2Desc: "يبسط لك المعلومة المعقدة بالعامية المصرية خفيفة الظل وبأمثلة من حياتنا اليومية.",
+      char3Title: "المهندس سيف",
+      char3Desc: "شرح تقني مركز جداً يعطيك الخلاصة التطبيقية بمزيج مرن بين العربية والإنجليزية.",
+      generateBtn: "ابدأ توليد فيديو الشرح الآن 🚀",
+      loadText1: "🤖 جاري قراءة الملف وصياغة السكريبت التفاعلي مع Gemini...",
+      loadText2: "🎬 جاري معالجة الـ Avatar وتحريك الشفاه ومزامنة الصوت المخصص...",
+      successTitle: "✅ تم إنشاء الفيديو والسكريبت بنجاح!",
+      scriptHeader: "📝 نص الشرح المولد (السيناريو):"
+    },
+    en: {
+      dir: "ltr",
+      font: "'Inter', sans-serif",
+      langBtn: "🌐 العربية",
+      mainTitle: "🎓 LecturAI",
+      mainDesc: "Transform your study files into interactive AI video explanations",
+      step1Title: "Upload Educational File",
+      uploadText: "Drag and drop your PDF or TXT file here",
+      uploadHint: "or click to browse files from your device",
+      fileReady: "Ready: ",
+      fileReadyText: "Your file is ready for analysis!",
+      step2Title: "Choose Teacher Character",
+      char1Title: "Professor Hakim",
+      char1Desc: "Provides academic explanations in clear, professional, and simplified language.",
+      char2Title: "Mr. Amir (Fun Teacher)",
+      char2Desc: "Breaks down complex concepts with light humor, using engaging everyday examples.",
+      char3Title: "Eng. Seif (Tech Expert)",
+      char3Desc: "Highly focused technical explanations, giving you the production-ready summary.",
+      generateBtn: "Generate Explanation Video Now 🚀",
+      loadText1: "🤖 Reading file and crafting the interactive script with Gemini...",
+      loadText2: "🎬 Processing the Avatar, mouth movements, and voice synchronization...",
+      successTitle: "✅ Video and Script Generated Successfully!",
+      scriptHeader: "📝 Generated Script (Scenario):"
+    }
+  };
+
+  const sampleScripts = {
+    ar: {
+      prof: "أهلاً بكم يا أبنائي الطلاب. بناءً على الملف الدراسي الذي قمت برفعه، سنتناول اليوم شرحاً تفصيلياً ومبسطاً لأهم القواعد الحاكمة فيه. ركزوا معي جيداً، فالفهم الحقيقي يبدأ دائماً من تفكيك العبارات المعقدة وإعادة صياغتها.",
+      fun: "يا هلا والله بالشباب! منورين يا دكاترة. الفايل اللي انت لسه رافعه ده فكرته في اللذيذ خالص ومش محتاجة كل القلق ده. بص يا سيدي، الحكاية كلها تتلخص في كام نقطة سهلة.. ركز معايا كدا وسيب اللي في إيدك!",
+      tech: "السلام عليكم يا باشمهندسين، في الفيديو ده هعمل ليكم تلخيص سريع للـ Core concepts اللي موجودة في الدوكيمينت بتاعكم. هنركز بالتحديد على الـ Architecture الأساسي وازاي نطبق الخطوات دي في سوق العمل بشكل سليم."
+    },
+    en: {
+      prof: "Welcome, dear students. Based on the document you uploaded, today we will dive into a simplified yet detailed explanation of its core principles. Stay focused, as true understanding begins by breaking down complex concepts.",
+      fun: "Hey guys! Welcome! This file you just uploaded is actually super fun and easy. Trust me, it all boils down to a few simple points. Pay attention and let's get the best out of this chapter in 2 minutes!",
+      tech: "Hello engineers, in this video I will give you a quick breakdown of the core concepts found in your document. We will specifically target the main architecture and how to implement this in production."
+    }
+  };
+
+  let currentLang = 'ar';
+  let selectedCharacter = 'prof';
+
+  const elements = {
+    html: document.getElementById('appHtml'),
+    langBtn: document.getElementById('langBtn'),
+    mainTitle: document.getElementById('mainTitle'),
+    mainDesc: document.getElementById('mainDesc'),
+    step1Title: document.getElementById('step1Title'),
+    uploadText: document.getElementById('uploadText'),
+    uploadHint: document.getElementById('uploadHint'),
+    step2Title: document.getElementById('step2Title'),
+    char1Title: document.getElementById('char1Title'),
+    char1Desc: document.getElementById('char1Desc'),
+    char2Title: document.getElementById('char2Title'),
+    char2Desc: document.getElementById('char2Desc'),
+    char3Title: document.getElementById('char3Title'),
+    char3Desc: document.getElementById('char3Desc'),
+    generateBtn: document.getElementById('generateBtn'),
+    resultSection: document.getElementById('resultSection'),
+    loadingBox: document.getElementById('loadingBox'),
+    loadingText: document.getElementById('loadingText'),
+    outputBox: document.getElementById('outputBox'),
+    successTitle: document.getElementById('successTitle'),
+    scriptHeader: document.getElementById('scriptHeader'),
+    scriptText: document.getElementById('scriptText'),
+    videoWrapper: document.getElementById('videoWrapper'),
+    fileInput: document.getElementById('fileInput'),
+    dropZone: document.getElementById('dropZone'),
+    fileBadgeContainer: document.getElementById('fileBadgeContainer'),
+    charCards: document.querySelectorAll('.char-card')
+  };
+
+  function switchLanguage(lang) {
+    currentLang = lang;
+    const t = translations[lang];
+    
+    elements.html.setAttribute('dir', t.dir);
+    elements.html.setAttribute('lang', lang);
+    document.documentElement.style.setProperty('--font-family', t.font);
+    
+    elements.langBtn.querySelector('span').textContent = t.langBtn.replace('🌐 ', '');
+    elements.mainTitle.textContent = t.mainTitle;
+    elements.mainDesc.textContent = t.mainDesc;
+    elements.step1Title.textContent = t.step1Title;
+    
+    if (elements.fileInput.files.length === 0) {
+      elements.uploadText.textContent = t.uploadText;
+    } else {
+      elements.uploadText.textContent = t.fileReadyText;
+      const fName = elements.fileInput.files[0].name;
+      elements.fileBadgeContainer.innerHTML = `<span class="file-badge">📄 ${t.fileReady}${fName}</span>`;
+    }
+    
+    elements.uploadHint.textContent = t.uploadHint;
+    elements.step2Title.textContent = t.step2Title;
+    elements.char1Title.textContent = t.char1Title;
+    elements.char1Desc.textContent = t.char1Desc;
+    elements.char2Title.textContent = t.char2Title;
+    elements.char2Desc.textContent = t.char2Desc;
+    elements.char3Title.textContent = t.char3Title;
+    elements.char3Desc.textContent = t.char3Desc;
+    elements.generateBtn.textContent = t.generateBtn;
+    elements.successTitle.textContent = t.successTitle;
+    elements.scriptHeader.textContent = t.scriptHeader;
+    
+    if (!elements.outputBox.classList.contains('hidden')) {
+      elements.scriptText.textContent = sampleScripts[currentLang][selectedCharacter];
+    }
+  }
+
+  elements.langBtn.addEventListener('click', () => {
+    switchLanguage(currentLang === 'ar' ? 'en' : 'ar');
+  });
+
+  elements.dropZone.addEventListener('click', () => elements.fileInput.click());
+  elements.fileInput.addEventListener('change', (e) => {
+    if (e.target.files.length > 0) {
+      const file = e.target.files[0];
+      elements.fileBadgeContainer.innerHTML = `<span class="file-badge">📄 ${translations[currentLang].fileReady}${file.name}</span>`;
+      elements.uploadText.textContent = translations[currentLang].fileReadyText;
+      elements.generateBtn.disabled = false;
+    }
+  });
+
+  elements.charCards.forEach(card => {
+    card.addEventListener('click', () => {
+      elements.charCards.forEach(c => c.classList.remove('active'));
+      card.classList.add('active');
+      selectedCharacter = card.dataset.char;
+      
+      if (!elements.outputBox.classList.contains('hidden')) {
+        elements.scriptText.textContent = sampleScripts[currentLang][selectedCharacter];
+      }
+    });
+  });
+
+  elements.generateBtn.addEventListener('click', () => {
+    elements.resultSection.classList.remove('hidden');
+    elements.loadingBox.classList.remove('hidden');
+    elements.outputBox.classList.add('hidden');
+    elements.videoWrapper.innerHTML = ''; 
+    
+    elements.loadingText.textContent = translations[currentLang].loadText1;
+    
+    setTimeout(() => {
+      elements.loadingText.textContent = translations[currentLang].loadText2;
+      
+      setTimeout(() => {
+        elements.loadingBox.classList.add('hidden');
+        elements.outputBox.classList.remove('hidden');
+        elements.scriptText.textContent = sampleScripts[currentLang][selectedCharacter];
+        
+        // تشغيل الفيديو بشكل تفاعلي آمن متطابق بالكامل مع الأخضر المينت النيون الفاتح
+        elements.videoWrapper.innerHTML = `<iframe width="100%" height="100%" src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>`;
+        
+        elements.resultSection.scrollIntoView({ behavior: 'smooth' });
+      }, 2500);
+      
+    }, 2000);
+  });
+</script>
+
+</body>
+</html>
